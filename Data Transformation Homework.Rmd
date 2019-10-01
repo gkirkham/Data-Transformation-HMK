@@ -1,0 +1,154 @@
+---
+title: "Data Transformation"
+output: html_notebook
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(nycflights13)
+library(tidyverse)
+```
+
+Letter abbreviations:  
+- `<int>` stands for integers.  
+- `<dbl>` stands for real numbers.  
+- `<chr>` stands for character vectors.  
+- `<dttm>` stands for date-times.  
+
+```{r}
+View(nycflights13::flights)
+```
+
+### 5.2.4 Exercises
+
+1a.  
+```{r}
+filter(flights,arr_delay >= 120)
+```
+
+1b.
+```{r}
+filter(flights,dest %in% c("IAH","HOU"))
+
+```
+
+1c.
+```{r}
+filter(flights, carrier %in% c("AA","DL","UA"))
+```
+
+1d.
+```{r}
+filter(flights, month %in% 7:9)
+```
+
+1e.
+
+```{r}
+filter(flights, arr_delay > 120, dep_delay <= 0)
+```
+
+1f.
+
+```{r}
+filter(flights, dep_delay >= 60, (dep_delay - arr_delay > 30))
+```
+
+1g.
+```{r}
+filter(flights, dep_time >= 2400 | dep_time <= 600)
+```
+
+2. `<between>` is a shortcut for a<=x<=b.
+
+```{r}
+filter(flights, between(dep_time, 600 ,2400))
+```
+
+3.
+```{r}
+sum(is.na(flights$dep_time))
+map_dbl(flights, ~ sum(is.na(.x)))
+```
+
+ Airtime, arr_delay, dep_delay and tail number have missing values.
+ 
+ 4. 
+ Unsure
+ 
+ 
+####5.3.1 Exercises
+
+1. Unsure  
+2. 
+
+```{r}
+arrange(flights, dep_delay)
+arrange(flights, desc(dep_delay))
+```
+3.
+```{r}
+arrange(flights, air_time)
+```
+
+
+4.
+```{r}
+# Shortest
+flights %>%
+  arrange(air_time) %>%
+  select(flight, air_time)
+# Fastest
+flights %>%
+  arrange(-air_time) %>%
+  select(flight, air_time)
+```
+
+####5.4.1 Exercises
+
+1. 
+```{r}
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+select(flights, starts_with("dep"), starts_with("arr"))
+select_(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")
+```
+
+2.
+```{r}
+select(flights, arr_delay,arr_delay)
+```
+
+Nothing, only returns once.
+
+3.
+
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+select(flights, one_of(vars))
+```
+Unsure why helpful.
+
+4.
+
+```{r}
+
+select(flights, contains("TIME"))
+```
+
+Unsure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
